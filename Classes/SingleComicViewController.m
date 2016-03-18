@@ -15,6 +15,7 @@
 #import "FCOpenInChromeActivity.h"
 #import "XkcdErrorCodes.h"
 #import "xkcd-Swift.h"
+#import <MPulse/MPulse.h>
 
 #define kTileWidth 1024.0f
 #define kTileHeight 1024.0f
@@ -142,7 +143,9 @@
 }
 
 - (void)displayComicImage {
-	// Load up the comic image/view
+  NSString* mPulseTimerID = [[MPulse sharedInstance] startTimer:@"displayComic"];
+
+  // Load up the comic image/view
 	UIImage *comicImage = self.comic.image;
 	CGSize contentSize = comicImage.EXIFAgnosticSize;
 	TiledImage *tiles = [[TiledImage alloc] initWithImage:comicImage tileWidth:kTileWidth tileHeight:kTileHeight];
@@ -186,6 +189,8 @@
 	} else {
 		self.view.accessibilityLabel = self.comic.transcript; // TODO: Clean up the transcript some for a more pleasant listening experience
 	}
+
+  [[MPulse sharedInstance] stopTimer:mPulseTimerID];
 }
 
 - (void) calculateZoomScaleAndAnimate:(BOOL)animate {

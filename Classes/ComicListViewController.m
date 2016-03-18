@@ -15,6 +15,7 @@
 #import "FAQViewController.h"
 #import "TLMacros.h"
 #import "xkcd-Swift.h"
+#import <MPulse/MPulse.h>
 
 #define kTableViewBackgroundColor [UIColor colorWithRed:0.69f green:0.737f blue:0.80f alpha:0.5f]
 #define kUserDefaultsSavedTopVisibleComicKey @"topVisibleComic"
@@ -244,7 +245,9 @@ static UIImage *downloadImage = nil;
 	 [UIAlertAction actionWithTitle:NSLocalizedString(@"Share link to this app", @"Action sheet title")
 							  style:UIAlertActionStyleDefault
 							handler:^(UIAlertAction * _Nonnull action) {
-								NSURL *appUrl = [NSURL URLWithString:@"http://bit.ly/xkcdapp"];
+                [[MPulse sharedInstance] sendMetric:@"Links Shared" value:[NSNumber numberWithInt:1]];
+
+                NSURL *appUrl = [NSURL URLWithString:@"http://bit.ly/xkcdapp"];
 								UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[appUrl]
 																													 applicationActivities:nil];
 								

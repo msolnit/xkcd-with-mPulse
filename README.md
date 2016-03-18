@@ -1,4 +1,4 @@
-This is a fork of [paulrehkugler/xkcd](https://github.com/paulrehkugler/xkcd), used as a demonstration of SOASTA mPulse for iOS.  To insert your own mPulse API key, edit the `AppDelegate.swift` file, line 21:
+This is a fork of [paulrehkugler/xkcd](https://github.com/paulrehkugler/xkcd), used as a demonstration of SOASTA mPulse for iOS.  To insert your own mPulse API key, edit the `AppDelegate.swift` file, line 19:
 
 ```swift
 MPulse.initializeWithAPIKey("INSERT API KEY HERE")

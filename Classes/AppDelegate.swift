@@ -16,6 +16,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+        MPulse.initializeWithAPIKey("INSERT API KEY HERE")
         let listViewController = ComicListViewController(style: .Plain)
 
         if let launchURL = launchOptions?[UIApplicationLaunchOptionsURLKey] as? NSURL {
