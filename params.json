@@ -1,0 +1,6 @@
+{
+  "name": "xkcd-with-mpulse",
+  "tagline": "Forked xkcd iPhone app, instrumented with SOASTA mPulse",
+  "body": "This is a fork of [paulrehkugler/xkcd](https://github.com/paulrehkugler/xkcd), used as a demonstration of SOASTA mPulse for iOS.  To insert your own mPulse API key, edit the `AppDelegate.swift` file, line 19:\r\n\r\n```swift\r\nMPulse.initializeWithAPIKey(\"INSERT API KEY HERE\")\r\n```\r\n\r\nand insert your own API key.\r\n\r\nIn addition to measuring all network traffic, this demo also includes a custom timer for measuring the render time of individual comics, and a custom metric tracking how often people share links.\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
