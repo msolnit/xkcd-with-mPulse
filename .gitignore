@@ -1,3 +1,5 @@
+MPulse.framework
+
 build/
 
 *.xcodeproj/*.mode2v3
