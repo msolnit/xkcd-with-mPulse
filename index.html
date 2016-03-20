@@ -12,20 +12,78 @@
   <body>
     <section class="page-header">
       <h1 class="project-name">xkcd-with-mpulse</h1>
-      <h2 class="project-tagline">Forked xkcd iPhone app, instrumented with SOASTA mPulse</h2>
+      <h2 class="project-tagline">Forked xkcd iPhone app, instrumented with <a href="http://www.soasta.com/mPulse/">SOASTA mPulse</a></h2>
       <a href="https://github.com/msolnit/xkcd-with-mPulse" class="btn">View on GitHub</a>
       <a href="https://github.com/msolnit/xkcd-with-mPulse/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/msolnit/xkcd-with-mPulse/tarball/master" class="btn">Download .tar.gz</a>
     </section>
 
     <section class="main-content">
-      <p>This is a fork of <a href="https://github.com/paulrehkugler/xkcd">paulrehkugler/xkcd</a>, used as a demonstration of SOASTA mPulse for iOS.  To insert your own mPulse API key, edit the <code>AppDelegate.swift</code> file, line 19:</p>
+      <h2>Introduction</h2>
+      <p>This project is meant to be a fun way of demonstrating the capabilities of <a href="http://www.soasta.com/mPulse/">SOASTA mPulse</a> for iOS apps.  It's a fork of the excellent <a href="https://github.com/paulrehkugler/xkcd">open-source app</a> by Paul Rehkugler, and is <b>not</b> meant as a replacement of that version.  This is for demo purposes only.</p>
+      <p>I repeat: if you're looking for a quality xkcd app, go to the <a href="https://github.com/paulrehkugler/xkcd">original</a>.  If you want to learn about mPulse for iOS, however, then you've come to the right place!</p>
+      <h2>Usage</h2>
+      <p>This page is meant to serve two purposes:
+        <ul>
+          <li>Introduce the reader to the capabilities of mPulse for iOS</li>
+          <li>Guide developers, if interested, through the process of instrumenting an app</li>
+        </ul>
+      </p>
+      <h2>Pre-requisites</h2>
+      <p>If you want to follow along, you'll need the following:
+      <ol>
+        <li>An active SOASTA mPulse account.  You can <a href="http://www.soasta.com/performance-monitoring/sign-up/">sign up for free</a> - it only takes a minute, and no credit card is required!</li>
+        <li>A copy of <a href="https://developer.apple.com/xcode/download/">Xcode</a>. I'm running Xcode 7.2.1 on OS X Yosemite. Please feel free to try other versions, and let me know how it goes!</li>
+        <li>A Git client (any will do).</li>
+      </ol>
+      </p>
+      <h2>Cheat Sheet</h2>
+      <p>You can see a <b>full diff</b> of all the changes we're going to make, in GitHub <a href="https://github.com/msolnit/xkcd-with-mPulse/commit/74c6d60a9afcc9bd003bf46416dbb455a8a41141">commit 74c6d60a9afcc9bd003bf46416dbb455a8a41141</a>.</p>
+      <h2>Getting the Source</h2>
+      <p>Clone the source for this project, and then check out the <code>un-instrumented</code> branch. For example, if you're using the command line:</p>
+<div class="highlight"><pre>$ git clone https://github.com/msolnit/xkcd-with-mPulse.git
+$ cd xkcd-with-mPulse
+$ git checkout un-instrumented</pre></div>
+      <p>The <code>un-instrumented</code> branch is important, because it doesn't yet have any of the changes you'll be making below.</p>
+      <p>Finally, open <code>xkcd.xcodeproj</code> in Xcode.</p>
+      <h2>mPulse Setup</h2>
+      <p>When you log into mPulse for the very first time, you'll see the Configure Your App dialog below.  If you've already created an app configuration, then you can click the "New" button in the toolbar to bring this dialog back:</p>
+      <p><img src="images/setup-wizard-step-1.png" /></p>
+      <p>Click the "iOS (Xcode)" option and then set the app name to "xkcd Demo" (as shown in the screen shot).  Then click the Next button.  You'll see the next step appear:</p>
+      <p><img src="images/setup-wizard-step-2.png" /></p>
+      <p>Click the "MPulse.Framework.zip" download link and wait for the file to finish downloading. While you're waiting, let's review the code changes you'll need to make:
+      <ol>
+        <li>Add the framework (we'll do this in a second, but I'll assume for now that it's still downloading).</li>
+        <li>For this project, you can <b>skip</b> the <code>-ObjC</code> linker flag, because the app already has it.</li>
+        <li>The <code>CoreLocation</code> and <code>SystemConfiguration</code> frameworks are already present. However, you'll need to add <code>CoreTelephony</code>, <code>libc++</code>, <code>libz</code>, and <code>libxml2</code>.</li>
+        <li>When the download finishes, un-zip the <code>MPulse.Framework.zip</code> file, drag the <code>MPulse.framework</code> directory into your Xcode project and drop it.</li>
+        <li>In the confirmation dialog that appears, <b>make sure to check the "Copy items if needed" box</b>. Then click Finish.</li>
+      </ol>
+      </p>
+      <p><img src="images/xcode-step-2.png" /></p>
+      <p>At this point, you can click Next in the mPulse setup wizard. You'll see the following:</p>
+      <p><img src="images/setup-wizard-step-3.png" /></p>
+      <p>You'll need to make note of the API key, which is blacked out in the screen shot above.  It will look something like <code>12345-12345-12345-12345-12345</code>.</p>
+      <p>Because this is a Swift-based app, the first step (adding the <code>#import</code> statement) needs to be done in the "Objective-C bridging header" file (see <a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html">Apple developer docs</a> for more detail).  Fortunately, this project already has a bridging file, so you don't need to create it.  Just add the line to <code>Classes/xkcd-Bridging-Header.h</code>, line 8:</p>
+<div class="highlight"><pre>#import "Comic.h"
+#import "ComicListViewController.h"
+#import "TLNavigationController.h"
 
+// NEW CODE HERE
+#import &lt;MPulse/MPulse.h></pre></div>
+      <p>Initializing mPulse in Swift is a bit different from doing it in Objective-C. The idea is the same &mdash; you're adding a line to the app delegate class &mdash; but the syntax is different. Open the <code>AppDelegate.swift</code> file and jump to line 18:</p>
+<div class="highlight highlight-source-swift"><pre>func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {</pre></div>
+      <p>Just <b>below</b> this line, add the following:</p>
 <div class="highlight highlight-source-swift"><pre>MPulse<span class="pl-k">.</span>initializeWithAPIKey(<span class="pl-s"><span class="pl-pds">"</span>INSERT API KEY HERE<span class="pl-pds">"</span></span>)</pre></div>
-
-<p>and insert your own API key.</p>
-
-<p>In addition to measuring all network traffic, this demo also includes a custom timer for measuring the render time of individual comics, and a custom metric tracking how often people share links.</p>
+      <p>and insert your own API key.</p>
+      <p>Finally, in the mPulse UI, click the Next button to advance to the final stage of the wizard.</p>
+      <p><img src="images/setup-wizard-step-4.png" /></p>
+      <p>At this point mPulse is simply waiting for data.  Run your newly-instrumented app in Xcode (you can use the simulator or a real device), and wait for about a minute. The app will request the list of xkcd comics, and mPulse will automatically measure the request! You should see the Summary dashboard open with your data:</p>
+      <p><img src="images/setup-wizard-step-5.png" /></p>
+      <h2>Why does it take a full minute for data to appear in the dashboard?</h2>
+      <p>We <b>batch</b> the data that gets sent to mPulse, so that we don't take up too much of your users' bandwidth. By default, we send a batch every 60 seconds, but you can tweak this number in the mPulse app configuration.</p>
+      <h2>Next Steps</h2>
+      <p>The fully-instrumented example (the <code>master</code> branch in GitHub) also includes a custom timer and metric, to show how you can capture more than just basic network performance. The next update to this page will walk through those steps as well, but in the meantime, feel free to <a href="https://github.com/msolnit/xkcd-with-mPulse/commit/74c6d60a9afcc9bd003bf46416dbb455a8a41141">take a look at the code</a>!</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/msolnit/xkcd-with-mPulse">xkcd-with-mpulse</a> is maintained by <a href="https://github.com/msolnit">msolnit</a>.</span>
