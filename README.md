@@ -1,9 +1,9 @@
-This is a fork of [paulrehkugler/xkcd](https://github.com/paulrehkugler/xkcd), used as a demonstration of SOASTA mPulse for iOS.  To insert your own mPulse API key, edit the `AppDelegate.swift` file, line 19:
+## Introduction
 
-```swift
-MPulse.initializeWithAPIKey("INSERT API KEY HERE")
-```
+This project is meant to be a fun way of demonstrating the capabilities of SOASTA mPulse for iOS apps. It's a fork of the excellent [open-source app](https://github.com/paulrehkugler/xkcd) by Paul Rehkugler, and is **not** meant as a replacement of that version. This is for demo purposes only.
 
-and insert your own API key.
+I repeat: if you're looking for a quality xkcd app, go to the [original](https://github.com/paulrehkugler/xkcd). If you want to learn about mPulse for iOS, however, then you've come to the right place!
 
-In addition to measuring all network traffic, this demo also includes a custom timer for measuring the render time of individual comics, and a custom metric tracking how often people share links.
+## Tell me more!
+
+You can read all about it in the [GitHub Page](http://msolnit.github.io/xkcd-with-mPulse/) for this project.
