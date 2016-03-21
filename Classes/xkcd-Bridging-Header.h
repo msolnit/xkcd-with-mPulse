@@ -5,4 +5,3 @@
 #import "Comic.h"
 #import "ComicListViewController.h"
 #import "TLNavigationController.h"
-#import <MPulse/MPulse.h>

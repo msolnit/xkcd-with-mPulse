@@ -54,12 +54,6 @@
 		DAC1B2AB1C559EF700436971 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC1B2AA1C559EF700436971 /* CoreDataStack.swift */; };
 		DAC1B2AF1C55AF6E00436971 /* UIImage+EXIFCompensation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC1B2AE1C55AF6E00436971 /* UIImage+EXIFCompensation.swift */; };
 		DAC1B2B11C55B00300436971 /* UIScrollView+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC1B2B01C55B00300436971 /* UIScrollView+Helper.swift */; };
-		F78720921C9CB9B300081445 /* MPulse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F78720911C9CB9B300081445 /* MPulse.framework */; };
-		F78720941C9CB9DD00081445 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F78720931C9CB9DD00081445 /* CoreTelephony.framework */; };
-		F78720951C9CB9E200081445 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03DA9CA91097A4DA005A34B2 /* CoreLocation.framework */; };
-		F78720961C9CB9E900081445 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 037CC6DD122B183C002E4738 /* SystemConfiguration.framework */; };
-		F78720981C9CB9F700081445 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F78720971C9CB9F700081445 /* libc++.tbd */; };
-		F787209A1C9CB9FE00081445 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F78720991C9CB9FE00081445 /* libz.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -158,10 +152,6 @@
 		DAC1B2AA1C559EF700436971 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		DAC1B2AE1C55AF6E00436971 /* UIImage+EXIFCompensation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+EXIFCompensation.swift"; sourceTree = "<group>"; };
 		DAC1B2B01C55B00300436971 /* UIScrollView+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Helper.swift"; sourceTree = "<group>"; };
-		F78720911C9CB9B300081445 /* MPulse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MPulse.framework; sourceTree = "<group>"; };
-		F78720931C9CB9DD00081445 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		F78720971C9CB9F700081445 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		F78720991C9CB9FE00081445 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,14 +159,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F787209A1C9CB9FE00081445 /* libz.tbd in Frameworks */,
-				F78720981C9CB9F700081445 /* libc++.tbd in Frameworks */,
-				F78720961C9CB9E900081445 /* SystemConfiguration.framework in Frameworks */,
-				F78720951C9CB9E200081445 /* CoreLocation.framework in Frameworks */,
-				F78720941C9CB9DD00081445 /* CoreTelephony.framework in Frameworks */,
 				03F702101464C3270091BF49 /* CoreGraphics.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
-				F78720921C9CB9B300081445 /* MPulse.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				28D801B40F44B63D00FB423F /* CoreData.framework in Frameworks */,
 				0384E8C4105036D40096D4E7 /* MessageUI.framework in Frameworks */,
@@ -391,10 +375,6 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F78720991C9CB9FE00081445 /* libz.tbd */,
-				F78720971C9CB9F700081445 /* libc++.tbd */,
-				F78720931C9CB9DD00081445 /* CoreTelephony.framework */,
-				F78720911C9CB9B300081445 /* MPulse.framework */,
 				03798E72146C9FD8006AD9B1 /* Twitter.framework */,
 				03F7020F1464C3270091BF49 /* CoreGraphics.framework */,
 				0384E8C3105036D40096D4E7 /* MessageUI.framework */,
@@ -631,10 +611,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = xkcd_Prefix.pch;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = YES;
@@ -713,10 +689,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = xkcd_Prefix.pch;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = YES;
@@ -752,10 +724,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -793,10 +761,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = xkcd_Prefix.pch;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = YES;
