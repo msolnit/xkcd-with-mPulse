@@ -21,7 +21,7 @@
 
 #pragma mark -
 
-static UIImage *downloadImage = nil;
+static UIImage *__downloadImage = nil;
 
 #pragma mark -
 
@@ -39,12 +39,12 @@ static UIImage *downloadImage = nil;
 
 @implementation ComicListViewController
 
-+ (void)initialize {
-	if ([self class] == [ComicListViewController class]) {
-		if (!downloadImage) {
-			downloadImage = [[UIImage imageNamed:@"download"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-		}
++ (UIImage *)downloadImage {
+	if (!__downloadImage) {
+		__downloadImage = [[UIImage imageNamed:@"download"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 	}
+	
+	return __downloadImage;
 }
 
 - (instancetype)initWithStyle:(UITableViewStyle)style {
@@ -52,6 +52,7 @@ static UIImage *downloadImage = nil;
 		self.title = NSLocalizedString(@"xkcd", @"Title of main view");
 		self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
 		self.searchController.searchResultsUpdater = self;
+		self.searchController.obscuresBackgroundDuringPresentation = NO;
 	}
 	return self;
 }
@@ -225,7 +226,8 @@ static UIImage *downloadImage = nil;
 	 [UIAlertAction actionWithTitle:NSLocalizedString(@"Read the FAQ", @"Action sheet title")
 							  style:UIAlertActionStyleDefault
 							handler:^(UIAlertAction * _Nonnull action) {
-								FAQViewController *faqViewController = [[FAQViewController alloc] initWithNibName:nil bundle:nil];
+								UIStoryboard *faqStoryBoard = [UIStoryboard storyboardWithName:@"FAQViewController" bundle:[NSBundle mainBundle]];
+								FAQViewController *faqViewController = [faqStoryBoard instantiateViewControllerWithIdentifier:@"FAQViewController"];
 								UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:faqViewController];
 								[self presentViewController:navigationController animated:YES completion:nil];
 							}]
@@ -479,7 +481,7 @@ static UIImage *downloadImage = nil;
 			comicCell.accessibilityHint = NSLocalizedString(@"Waiting for download", @"downloading_comic_accessibility_hint");
 		}
 		else {
-			UIImageView *downloadImageView = [[UIImageView alloc] initWithImage:downloadImage];
+			UIImageView *downloadImageView = [[UIImageView alloc] initWithImage:[ComicListViewController downloadImage]];
 			downloadImageView.opaque = YES;
 			comicCell.accessoryView = downloadImageView;
 			comicCell.accessibilityHint = NSLocalizedString(@"Downloads the comic", @"undownloaded_comic_accessibility_hint");
@@ -499,6 +501,10 @@ static UIImage *downloadImage = nil;
 
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	Comic *selectedComic = [self comicAtIndexPath:indexPath inTableView:aTableView];
+	if (self.searchController.isActive) {
+		self.searchController.active = NO;
+	}
+	
 	BOOL shouldDeselect = YES;
 	if ([selectedComic.number integerValue] != 404) {
 		if (selectedComic.downloaded) {
