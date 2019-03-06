@@ -11,39 +11,42 @@ import UIKit
 /// This class acts as the UIApplicationDelegate of the application.
 final class AppDelegate: NSObject, UIApplicationDelegate {
 
-    // MARK: - UIApplicationDelegate
+  // MARK: - UIApplicationDelegate
 
-    var window: UIWindow?
+  var window: UIWindow?
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
-        MPulse.initializeWithAPIKey("INSERT API KEY HERE")
-        let listViewController = ComicListViewController(style: .Plain)
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]?) -> Bool {
+    MPulse.initialize(withAPIKey: "INSERT API KEY HERE")
 
-        if let launchURL = launchOptions?[UIApplicationLaunchOptionsURLKey] as? NSURL {
-            guard launchURL.scheme == "xkcd" else {
-                return false
-            }
+    Comic.synchronizeDownloadedImages()
 
-            if
-                let host = launchURL.host,
-                let launchedComicNumber = Int(host)
-                where launchedComicNumber > 0
-            {
-                listViewController.requestedLaunchComic = launchedComicNumber
-            }
-        }
+    let listViewController = ComicListViewController(style: .plain)
 
-        let navigationController = TLNavigationController(rootViewController: listViewController)
+    if let launchURL = launchOptions?[.url] as? NSURL {
+      guard launchURL.scheme == "xkcd" else {
+        return false
+      }
 
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
-
-        window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
-
-        return true
+      if
+        let host = launchURL.host,
+        let launchedComicNumber = Int(host),
+        launchedComicNumber > 0
+      {
+        listViewController.requestedLaunchComic = launchedComicNumber
+      }
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
-        Comic.synchronizeDownloadedImages()
-    }
+    let navigationController = TLNavigationController(rootViewController: listViewController)
+
+    window = UIWindow(frame: UIScreen.main.bounds)
+
+    window?.rootViewController = navigationController
+    window?.makeKeyAndVisible()
+
+    return true
+  }
+
+  func applicationDidBecomeActive(_ application: UIApplication) {
+    Comic.synchronizeDownloadedImages()
+  }
 }

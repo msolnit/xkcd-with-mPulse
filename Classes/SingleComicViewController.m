@@ -15,7 +15,6 @@
 #import "FCOpenInChromeActivity.h"
 #import "XkcdErrorCodes.h"
 #import "xkcd-Swift.h"
-#import <MPulse/MPulse.h>
 
 #define kTileWidth 1024.0f
 #define kTileHeight 1024.0f
@@ -143,11 +142,9 @@
 }
 
 - (void)displayComicImage {
-  NSString* mPulseTimerID = [[MPulse sharedInstance] startTimer:@"displayComic"];
-
-  // Load up the comic image/view
+	// Load up the comic image/view
 	UIImage *comicImage = self.comic.image;
-	CGSize contentSize = comicImage.EXIFAgnosticSize;
+	CGSize contentSize = comicImage.exifAgnosticSize;
 	TiledImage *tiles = [[TiledImage alloc] initWithImage:comicImage tileWidth:kTileWidth tileHeight:kTileHeight];
 	self.contentView = [[UIView alloc] initWithFrame:CGRectZeroWithSize(contentSize)];
 	self.comicImageViews = [NSMutableArray arrayWithCapacity:(tiles.widthCount * tiles.heightCount)];
@@ -189,12 +186,10 @@
 	} else {
 		self.view.accessibilityLabel = self.comic.transcript; // TODO: Clean up the transcript some for a more pleasant listening experience
 	}
-
-  [[MPulse sharedInstance] stopTimer:mPulseTimerID];
 }
 
 - (void) calculateZoomScaleAndAnimate:(BOOL)animate {
-	CGSize contentSize = self.comic.image.EXIFAgnosticSize;
+	CGSize contentSize = self.comic.image.exifAgnosticSize;
 	self.imageScroller.contentSize = contentSize;
 	self.imageScroller.maximumZoomScale = 2;
 	CGFloat xMinZoom = self.imageScroller.frame.size.width / contentSize.width;
@@ -294,7 +289,7 @@
 		// zoom towards the user's double tap
 		CGPoint centerPoint = [recognizer locationInView:self.imageScroller];
 		NSLog(@"scale = %f, point = %@", newZoomScale, NSStringFromCGPoint(centerPoint));
-		[self.imageScroller setZoomScale:newZoomScale centerPoint:centerPoint animated:YES];
+		[self.imageScroller setZoomScaleWithScale:newZoomScale centerPoint:centerPoint animated:YES];
 	} else {
     newZoomScale = self.imageScroller.minimumZoomScale;
 	  NSLog(@"scale = %f", newZoomScale);
@@ -326,6 +321,7 @@
   self.imageFetcher = nil;
   [self.loadingView removeFromSuperview];
   [self displayComicImage];
+  [self calculateZoomScaleAndAnimate:NO];
 }
 
 - (void)singleComicImageFetcher:(SingleComicImageFetcher *)fetcher
